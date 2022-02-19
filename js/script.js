@@ -4,25 +4,21 @@ function game(){
     let playerScore = 0;
     let computerScore = 0;
     let roundResult;
-    
-    for (let i = 0; i < 5; i++){
-        let playerSelection = getUserInput();
 
-        if (userInputIsValid(playerSelection)){
-            roundResult = playRound(playerSelection, computerPlay());
+    let playerSelection = getUserInput();
 
-            console.log(roundResult);
+    if (userInputIsValid(playerSelection)){
+        roundResult = playRound(playerSelection, computerPlay());
 
-            if (roundResult.substr(0,7) === "You win"){
-                playerScore++;
-            }else if (roundResult.substr(0,8) === "You lose"){
-                computerScore++;
-            }
-        } else {
-            alert('The only valid values are Rock, Paper or Scissors. You forfeit this round.');
+        console.log(roundResult);
+
+        if (roundResult.substr(0,7) === "You win"){
+            playerScore++;
+        }else if (roundResult.substr(0,8) === "You lose"){
+            computerScore++;
         }
-
-        
+    } else {
+        alert('The only valid values are Rock, Paper or Scissors. You forfeit this round.');
     }
 
     displayWinner(playerScore, computerScore);
