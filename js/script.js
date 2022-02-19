@@ -1,85 +1,69 @@
-function game(){
-    //alert("Welcome to the game! There will be 5 rounds.");
-    
-    let playerScore = 0;
-    let computerScore = 0;
-    let roundResult;
+//alert("Welcome to the game! The game ends when one player reaches 5 points.");
 
-    let playerSelection = getUserInput();
+let playerScore = 0;
+let computerScore = 0;
+let roundResult;
 
-    if (userInputIsValid(playerSelection)){
-        roundResult = playRound(playerSelection, computerPlay());
+const buttons = Array.from(document.querySelectorAll('button'));
+buttons.forEach(button => button.addEventListener('click', playRound));
 
-        console.log(roundResult);
+const scoreDisplay = document.querySelector('.scores');
+scoreDisplay.textContent = `Player score: ${playerScore}\r\n` +
+    `Computer score: ${computerScore}`;
 
-        if (roundResult.substr(0,7) === "You win"){
-            playerScore++;
-        }else if (roundResult.substr(0,8) === "You lose"){
-            computerScore++;
-        }
-    } else {
-        alert('The only valid values are Rock, Paper or Scissors. You forfeit this round.');
-    }
-
-    displayWinner(playerScore, computerScore);
-}
-
-
-function playRound(playerSelection, computerSelection){
-    
-    playerSelection = capitalizeInput(playerSelection);
-    
+function playRound(e){
+    console.log(e.target);
+    const playerSelection = e.target.getAttribute('id');
+    console.log(playerSelection);
     console.log(`Player selection: ${playerSelection}`);
+    const computerSelection = computerPlay();
     console.log(`Computer selection: ${computerSelection}`);
-    if(playerSelection === "Rock" && computerSelection === "Paper"
-        || playerSelection === "Scissors" && computerSelection === "Rock"
-        || playerSelection === "Paper" && computerSelection === "Scissors"){
-        return `You lose! ${computerSelection} beats ${playerSelection}.`;
+
+    if(playerSelection === "rock" && computerSelection === "paper"
+        || playerSelection === "scissors" && computerSelection === "rock"
+        || playerSelection === "paper" && computerSelection === "scissors"){
+        computerScore++;
+        scoreDisplay.textContent = `Player selection: ${playerSelection}\r\n` +
+            `Computer selection: ${computerSelection}\r\n` +
+            `Computer wins!\r\n` +
+            `Player score: ${playerScore}\r\n` +
+            `Computer score: ${computerScore}`;
     } else if (playerSelection === computerSelection){
-        return `It's a draw! Both players chose ${playerSelection}.`;
+        scoreDisplay.textContent = `Player selection: ${playerSelection}\r\n` +
+            `Computer selection: ${computerSelection}\r\n` + 
+            `It's a draw!\r\n` +
+            `Player score: ${playerScore}\r\n` +
+            `Computer score: ${computerScore}`;
     } else {
-        return `You win! ${playerSelection} beats ${computerSelection}.`;
+        playerScore++;
+        scoreDisplay.textContent = `Player selection: ${playerSelection}\r\n` +
+            `Computer selection: ${computerSelection}\r\n` +
+            `Player wins!\r\n` +
+            `Player score: ${playerScore}\r\n` +
+            `Computer score: ${computerScore}`;
+    }
+
+    if(playerScore === 5 || computerScore === 5){
+        displayWinner();
     }
 }
 
-function displayWinner(playerScore, computerScore){
+function displayWinner(){
     if (playerScore > computerScore) {
-        console.log(
-            `You win! The score was ${playerScore} to ${computerScore}.`);
-    } else if (computerScore > playerScore) {
-        console.log(
-            `You lose. The score was ${computerScore} to ${playerScore}.`
-        );
+        scoreDisplay.textContent = `You win!\r\nThe score is ${playerScore} to ${computerScore}`;
     } else {
-        console.log(`It's a draw! Both players scored ${playerScore}.`);
+        scoreDisplay.textContent = `You lose!\r\nThe score is ${playerScore} to ${computerScore}`;
     }
-}
-
-function capitalizeInput(playerSelection){
-    return playerSelection.substr(0,1).toUpperCase() +
-                        playerSelection.substr(1).toLowerCase();
-}
-
-function getUserInput(){
-    return prompt("Choose rock, paper, or scissors");
-}
-
-function userInputIsValid(playerSelection){
-    playerSelection = playerSelection.toLowerCase();
-    return playerSelection === "rock" || playerSelection === "paper" 
-        || playerSelection === "scissors";
 }
 
 function computerPlay(){
     let index = Math.floor(Math.random() * 3);
     switch(index){
         case 0: 
-            return "Rock";
+            return "rock";
         case 1:
-            return "Paper";
+            return "paper";
         case 2:
-            return "Scissors";
+            return "scissors";
     }
 }
-
-game();

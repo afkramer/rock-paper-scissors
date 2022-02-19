@@ -6,6 +6,15 @@
 }
 
 img {
-    height: 200px;
+    height: 150px;
     width: auto;
+}
+
+div,
+p {
+    white-space: pre;
+}
+
+.scores{
+    text-align: left;
 }
