@@ -45,6 +45,7 @@ function playRound(e){
 
     if(playerScore === 5 || computerScore === 5){
         displayWinner();
+        endGame();
     }
 }
 
@@ -54,6 +55,17 @@ function displayWinner(){
     } else {
         scoreDisplay.textContent = `You lose!\r\nThe score is ${playerScore} to ${computerScore}`;
     }
+}
+
+function endGame(){
+    buttons.forEach(button => button.removeEventListener('click', playRound));
+    const endDiv = document.querySelector('.endgame');
+    const restartBtn = document.createElement('button');
+    restartBtn.textContent = 'Play again';
+    const link = document.createElement('a');
+    link.setAttribute('href','./index.html');
+    link.appendChild(restartBtn);
+    endDiv.appendChild(link);
 }
 
 function computerPlay(){
