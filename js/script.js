@@ -1,5 +1,5 @@
 function game(){
-    alert("Welcome to the game! There will be 5 rounds.");
+    //alert("Welcome to the game! There will be 5 rounds.");
     
     let playerScore = 0;
     let computerScore = 0;
